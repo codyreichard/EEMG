@@ -1,0 +1,15 @@
+﻿@page
+@model EEMG_Login.Pages.ShowUsersModel
+@{
+}
+
+
+<div>
+    <img src="~/eemg.jpg"/>
+</div>
+
+@foreach (var user in Model.Users)
+{
+    <div>@user.Email </div>
+    <br>
+}

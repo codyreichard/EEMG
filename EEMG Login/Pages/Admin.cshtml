@@ -1,0 +1,32 @@
+﻿@page
+@model EEMG_Login.Pages.AdminModel
+@{
+}
+
+
+
+<div class="row">
+
+
+    <table>
+        <thead>
+            <tr>
+                <td> Users </td>
+                <td> Member?</td>
+                <td> Role</td>
+            </tr>
+        </thead>
+
+        @foreach(var user in Model.Users)
+        {
+            <tr>
+                <td> @user.Email </td>
+                <td> @user</td>
+            </tr>
+        }
+
+
+    </table>
+
+
+</div>
