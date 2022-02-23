@@ -11,6 +11,7 @@ namespace EEMG_Login.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated(); //make sure the db is created.
         }
     }
 }

@@ -12,7 +12,6 @@
         <thead>
             <tr>
                 <td> Users </td>
-                <td> Member?</td>
                 <td> Role</td>
             </tr>
         </thead>
@@ -20,8 +19,8 @@
         @foreach(var user in Model.Users)
         {
             <tr>
-                <td> @user.Email </td>
-                <td> @user</td>
+                <td> @user.UserName</td>
+                <td> @user.RoleName</td>
             </tr>
         }
 

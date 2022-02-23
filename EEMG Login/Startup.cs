@@ -62,30 +62,30 @@ namespace EEMG_Login
             });
 
 
-            CreateRoles(serviceProvider);
+            CreateRoles(serviceProvider).Wait();
         }
 
-        private void CreateRoles(IServiceProvider serviceProvider)
+        private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            Task<IdentityResult> roleResult;
+            //Task<IdentityResult> roleResult;
             string email = "someone@somewhere.com";
 
-            //Check that there is an Administrator role and create if not
-            Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Administrator");
-            //hasAdminRole.Wait();
+            var roleNames = new string[] { "Administrator", "Member", "User" };
 
-            if (!hasAdminRole.Result)
+
+            foreach(string role in roleNames)
             {
-                roleResult = roleManager.CreateAsync(new IdentityRole("Administrator"));
-                //roleResult.Wait();
+                var roleExists = await roleManager.RoleExistsAsync(role);
+                if (!roleExists)
+                    await roleManager.CreateAsync(new IdentityRole(role));
             }
 
             //Check if the admin user exists and create it if not
             //Add to the Administrator role
             Task<IdentityUser> testUser = userManager.FindByEmailAsync(email);
-            //testUser.Wait();
+            testUser.Wait();
 
             if (testUser.Result == null)
             {
@@ -94,12 +94,11 @@ namespace EEMG_Login
                 administrator.UserName = email;
 
                 Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "_AStrongP@ssword!");
-                //newUser.Wait();
+                newUser.Wait();
 
                 if (newUser.Result.Succeeded)
                 {
-                    Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(administrator, "Administrator");
-                    //newUserRole.Wait();
+                    await userManager.AddToRoleAsync(administrator, "Administrator");
                 }
             }
         }
