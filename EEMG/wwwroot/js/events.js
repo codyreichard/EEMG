@@ -1,9 +1,9 @@
 ﻿$(document).on('click', '#download-ppt', function(event){
-
+    var eventId = $(this).val();
     $.get({
-        url: '../../Controllers/EventsController/DownloadPowerPoint',
-        data: { id: -5 }
+        url: '/Events/DownloadFile',
+        data: { eventId: eventId }
     }).done(function () {
-        alert('Added');
+        alert("Downloaded File");
     });
 });

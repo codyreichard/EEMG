@@ -19,16 +19,18 @@ namespace EEMG_Login.Pages
             _context = context;
 
 
-            //if(_context.Events.Count > 0) { 
-            //Events events = new Events();
-            //events.EventDate = DateTime.Now;
-            //events.EventTitle = "Test Event";
-            //events.FileName = "test.pptx";
-            //events.FileContents = System.IO.File.ReadAllBytes(@"C:\Users\codyr\OneDrive\Desktop\test.pptx");
+            if (_context.Events.Count() <= 1)
+            {
+                Events events = new Events();
+                events.EventDate = DateTime.Now;
+                events.EventTitle = "Test Event";
+                events.FileName = "test.pptx";
+                events.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
 
-            //_context.Events.Add(events);
+                _context.Events.Add(events);
 
-            //_context.SaveChanges();
+                _context.SaveChanges();
+            }
 
             Events = _context.Events.ToList();
 

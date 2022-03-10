@@ -2,26 +2,25 @@
 @model EEMG_Login.Pages.EventDetailsModel
 
 @{
-    ViewData["Title"] = "EventDetails";
+    ViewData["Title"] = "Event Details";
 }
 
-<h1>EventDetails</h1>
+<h1>Event Details</h1>
+<hr />
 
 <div>
-    <h4>Events</h4>
-    <hr />
-
     @foreach (Events events in Model.Events)
     {
-    <div class="row">
-        <div >
-            <label > @events.EventTitle</label>
+    <div class="card">
+        <div class="card-body">
+            <label class="card-title"> @events.EventTitle</label>
+            <label> @events.EventDate.ToShortDateString() </label>
             <div>
-                <label> Download Event Documents</label>
-                <button id="download-ppt"> </button>
+                <button class="btn btn-primary" id="download-ppt" value="@events.Id"> Download Event Document</button>
             </div>
         </div>
     </div>
+    <br />
     }
 </div>
 
