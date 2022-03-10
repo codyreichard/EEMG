@@ -1,0 +1,31 @@
+﻿@page
+@model EEMG_Login.Pages.EventDetailsModel
+
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<h1>Event Details</h1>
+<hr />
+
+<div>
+    @foreach (Events events in Model.Events)
+    {
+    <div class="card">
+        <div class="card-body">
+            <label class="card-title"> @events.EventTitle</label>
+            <br>
+            <b> @events.EventDate.ToShortDateString() </b>
+            <div>
+                <button class="btn btn-primary" id="download-ppt" value="@events.Id"> Download Event Document</button>
+            </div>
+        </div>
+    </div>
+    <br />
+    }
+</div>
+
+
+@section scripts {
+    <script src="~/js/events.js" > </script>
+}

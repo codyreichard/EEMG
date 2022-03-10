@@ -56,9 +56,11 @@ namespace EEMG_Login
             app.UseAuthentication();
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapDefaultControllerRoute();
             });
 
 
@@ -75,7 +77,7 @@ namespace EEMG_Login
             var roleNames = new string[] { "Administrator", "Member", "User" };
 
 
-            foreach(string role in roleNames)
+            foreach (string role in roleNames)
             {
                 var roleExists = await roleManager.RoleExistsAsync(role);
                 if (!roleExists)

@@ -8,6 +8,9 @@ namespace EEMG_Login.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public DbSet<Events> Events { get; set; }
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
