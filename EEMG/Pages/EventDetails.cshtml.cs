@@ -22,12 +22,19 @@ namespace EEMG_Login.Pages
             if (_context.Events.Count() <= 1)
             {
                 Events events = new Events();
-                events.EventDate = DateTime.Now;
-                events.EventTitle = "Test Event";
+                events.EventDate = new DateTime(2021,10,1);
+                events.EventTitle = "EEMG Luncheon OCT";
                 events.FileName = "test.pptx";
                 events.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
 
-                _context.Events.Add(events);
+                Events events1 = new Events();
+                events1.EventDate = new DateTime(2021, 12, 1);
+                events1.EventTitle = "EEMG Luncheon DEC";
+                events1.FileName = "test.pptx";
+                events1.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
+
+                _context.Events.AddRange(events, events1);
+
 
                 _context.SaveChanges();
             }
