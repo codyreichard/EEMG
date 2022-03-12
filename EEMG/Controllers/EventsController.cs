@@ -4,6 +4,8 @@ using EEMG.Data;
 using EEMG.Pages;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Linq;
+using Microsoft.Extensions.FileProviders;
 
 namespace EEMG.Controllers
 {
@@ -45,10 +47,11 @@ namespace EEMG.Controllers
 
 
         [HttpGet]
-        public JsonResult DownloadPowerPoint(int eventId)
+        public FileContentResult DownloadFile(int id)
         {
-            Console.WriteLine("dsfsdfsdf");
-            return new JsonResult("Hello World");
+            var eventDownload = _context.Events.First(e => e.Id == id);
+            
+            return File(eventDownload.FileContents, "application/vnd.openxmlformats-officedocument.presentationml.presentation", eventDownload.FileName);
         }
 
         // GET: Events
