@@ -1,5 +1,5 @@
 ﻿@page
-@model EEMG_Login.Pages.AdminModel
+@model EEMG.Pages.AdminModel
 @{
 }
 
@@ -7,7 +7,8 @@
 <h1> Event Information </h1>
 <div class="row">
     <div class="col-sm-4">
-        <button class="btn btn-info"> Add Event </button>
+        @*<button class="btn btn-info" id="add-event"> Add Event </button>*@
+        <a asp-area="" asp-page="/CreateEvent" class="btn btn-info">Create Event</a>
     </div>
 </div>
 <div class="row">

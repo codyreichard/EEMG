@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EEMG_Login.Data
+namespace EEMG.Data
 {
     public class Events
     {

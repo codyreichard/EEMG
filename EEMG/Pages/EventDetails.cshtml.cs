@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EEMG_Login.Data;
+using EEMG.Data;
 
-namespace EEMG_Login.Pages
+namespace EEMG.Pages
 {
     public class EventDetailsModel : PageModel
     {
-        private readonly EEMG_Login.Data.ApplicationDbContext _context;
+        private readonly EEMG.Data.ApplicationDbContext _context;
         public List<Events> Events { get; set; }
 
-        public EventDetailsModel(EEMG_Login.Data.ApplicationDbContext context)
+        public EventDetailsModel(EEMG.Data.ApplicationDbContext context)
         {
             _context = context;
 

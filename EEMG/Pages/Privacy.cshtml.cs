@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EEMG_Login.Pages
+namespace EEMG.Pages
 {
     public class PrivacyModel : PageModel
     {

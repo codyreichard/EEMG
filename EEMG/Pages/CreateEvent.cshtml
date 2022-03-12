@@ -1,0 +1,52 @@
+﻿@page
+@model EEMG.Pages.CreateEventModel
+@{
+}
+
+<form method="post" asp-controller="Events" asp-action="AddEvent" enctype="multipart/form-data">
+    <div>
+        <div class="row">
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold; margin-right:2%;">Event Title *</span>
+                <input type="text" asp-for="EventTitle">
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold;">Event Time *</span>
+                <input type="datetime-local" asp-for="EventTime"
+                       name="eventTime" >
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold;">Event File *</span>
+                <input type="file" asp-for="EventFile" name="eventFile">
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-md-4">
+                <input type="submit" class="btn btn-success">
+            </div>
+        </div>
+
+
+        @*<div class="row">
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold;">Event Time *</span>
+                <input type="datetime-local" id="meeting-time"
+                       name="meeting-time" value="2018-06-12T19:30"
+                       min="2018-06-07T00:00" max="2018-06-14T00:00">
+            </div>
+        </div>*@
+    </div>
+
+</form>

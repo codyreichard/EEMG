@@ -1,5 +1,5 @@
 ﻿@page
-@model EEMG_Login.Pages.EventDetailsModel
+@model EEMG.Pages.EventDetailsModel
 
 @{
     ViewData["Title"] = "Event Details";
@@ -17,7 +17,8 @@
             <br>
             <b> @events.EventDate.ToShortDateString() </b>
             <div>
-                <button class="btn btn-primary" id="download-ppt" value="@events.Id"> Download Event Document</button>
+                @*<button class="btn btn-primary" id="download-ppt" value="@events.Id"> Download Event Document</button>*@
+                <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="DownloadFile" class="btn btn-info">Create Event</a>
             </div>
         </div>
     </div>

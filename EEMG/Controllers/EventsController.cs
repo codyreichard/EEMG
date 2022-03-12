@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using EEMG_Login.Data;
+using EEMG.Data;
+using EEMG.Pages;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Linq;
+using Microsoft.Extensions.FileProviders;
 
-namespace EEMG_Login.Controllers
+namespace EEMG.Controllers
 {
     public class EventsController : Controller
     {
@@ -18,22 +18,40 @@ namespace EEMG_Login.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        public IActionResult AddEvent(string eventTitle, DateTime eventTime, IFormFile eventFile) {
+            Events newEvent = new Events();
+            newEvent.EventTitle = eventTitle;
+            newEvent.EventDate = eventTime;
+            newEvent.FileName = eventFile.FileName;
+
+            if (eventFile.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    eventFile.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    string s = Convert.ToBase64String(fileBytes);
+                    newEvent.FileContents = fileBytes;
+                }
+            }
+
+
+            _context.Events.Add(newEvent);
+            _context.SaveChanges();
+
+
+
+            return RedirectToAction("Index", "Admin");
+        }
+
 
         [HttpGet]
-        public JsonResult DownloadPowerPoint(int eventId)
+        public FileContentResult DownloadFile(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-            Console.WriteLine("dsfsdfsdf");
-            //Events = _context.Events.ToList(); ///.FirstOrDefaultAsync(m => m.Id == id);
-
-            //if (Events == null)
-            //{
-            //    return NotFound();
-            //}
-            return new JsonResult("Hello World");
+            var eventDownload = _context.Events.First(e => e.Id == id);
+            
+            return File(eventDownload.FileContents, "application/vnd.openxmlformats-officedocument.presentationml.presentation", eventDownload.FileName);
         }
 
         // GET: Events

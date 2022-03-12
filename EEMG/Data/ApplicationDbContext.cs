@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EEMG_Login.Data
+namespace EEMG.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
