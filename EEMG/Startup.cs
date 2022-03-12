@@ -27,7 +27,7 @@ namespace EEMG_Login
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
@@ -63,7 +63,6 @@ namespace EEMG_Login
                 endpoints.MapDefaultControllerRoute();
             });
 
-
             CreateRoles(serviceProvider).Wait();
         }
 
@@ -72,7 +71,7 @@ namespace EEMG_Login
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             //Task<IdentityResult> roleResult;
-            string email = "someone@somewhere.com";
+            string email = "testAdmin@gmail.com";
 
             var roleNames = new string[] { "Administrator", "Member", "User" };
 
@@ -95,7 +94,7 @@ namespace EEMG_Login
                 administrator.Email = email;
                 administrator.UserName = email;
 
-                Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "_AStrongP@ssword!");
+                Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "1qazXSW@3edcVFR$");
                 newUser.Wait();
 
                 if (newUser.Result.Succeeded)

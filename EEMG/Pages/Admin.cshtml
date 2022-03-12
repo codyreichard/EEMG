@@ -3,29 +3,53 @@
 @{
 }
 
-
-
+<link rel="stylesheet" href="~/css/admin_page.css" />
+<h1> Event Information </h1>
 <div class="row">
+    <div class="col-sm-4">
+        <button class="btn btn-info"> Add Event </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4" style="margin-top: 2%;">
+        <button class="btn btn-info"> View Latest Event Report</button>
+    </div>
+</div>
 
+<hr />
 
-    <table>
+<h1> User Information </h1>
+<div class="row">
+    <table class="table">
         <thead>
             <tr>
-                <td> Users </td>
-                <td> Role</td>
+                <th> User Email </th>
+                <th> Role</th>
+                <th></th>
             </tr>
         </thead>
 
-        @foreach(var user in Model.Users)
+        @foreach (var user in Model.Users)
         {
             <tr>
                 <td> @user.UserName</td>
                 <td> @user.RoleName</td>
+                <td style="text-align:center;">
+                    <button class="btn btn-primary btn-xs" id="change-membership" value="@user.UserId"> Make Member</button>
+                </td>
             </tr>
         }
-
-
     </table>
-
-
 </div>
+
+@*<hr />*@
+
+@*<div class="row">
+        <div>
+            <button class="btn btn-success"> Save Changes</button>
+        </div>
+    </div>*@
+
+@section Scripts {
+    <script src="~/js/admin.js"></script>
+}

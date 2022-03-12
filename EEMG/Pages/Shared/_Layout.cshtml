@@ -1,4 +1,19 @@
-﻿<!DOCTYPE html>
+﻿@inject UserManager<IdentityUser> UserManager;
+@{
+    IdentityUser currentUser = await UserManager.GetUserAsync(User);
+    bool isAdmin = false;
+    bool isMember = false;
+    bool isUser = false;
+    if (currentUser != null)
+    {
+        var roles = await UserManager.GetRolesAsync(currentUser);
+        isAdmin = roles.Contains("Administrator");
+        isMember = roles.Contains("Member");
+        isUser = roles.Contains("User");
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,23 +38,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <!--<li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Member Info</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Members Only</a>
-                </li>
-                <li class="nav-item">-->
-                        <a class="nav-link text-dark" asp-area="" asp-page="/EventDetails">Events</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin">Admin</a>
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/EventDetails">Events</a>
                         </li>
 
-                        @*<li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                    </li>*@
-
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin">Admin</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
