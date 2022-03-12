@@ -2,7 +2,7 @@
     font-weight: bold;
 }
 
-.btn-group-xs > .btn, .btn-xs {
+.btn-group-xs > .btn-xs {
     padding: .25rem .4rem;
     font-size: .875rem;
     line-height: .5;

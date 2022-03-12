@@ -33,7 +33,6 @@ namespace EEMG_Login.Pages
                 u.RoleName = _db.Roles.Where(e => e.Id == role.RoleId).FirstOrDefault().Name;
                 Users.Add(u);
             }
-            Console.WriteLine();
         }
 
 
