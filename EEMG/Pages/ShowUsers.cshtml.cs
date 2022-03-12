@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EEMG_Login.Data;
+using EEMG.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EEMG_Login.Pages
+namespace EEMG.Pages
 {
     public class ShowUsersModel : PageModel
     {

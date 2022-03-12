@@ -1,5 +1,5 @@
 ﻿using System;
-using EEMG_Login.Data;
+using EEMG.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: HostingStartup(typeof(EEMG_Login.Areas.Identity.IdentityHostingStartup))]
-namespace EEMG_Login.Areas.Identity
+[assembly: HostingStartup(typeof(EEMG.Areas.Identity.IdentityHostingStartup))]
+namespace EEMG.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {
