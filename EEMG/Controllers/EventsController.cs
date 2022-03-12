@@ -30,7 +30,7 @@ namespace EEMG.Controllers
                     eventFile.CopyTo(ms);
                     var fileBytes = ms.ToArray();
                     string s = Convert.ToBase64String(fileBytes);
-                    // act on the Base64 data
+                    newEvent.FileContents = fileBytes;
                 }
             }
 
