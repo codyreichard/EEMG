@@ -1,6 +1,7 @@
-﻿@inject UserManager<IdentityUser> UserManager;
+﻿@using EEMG.Models;
+@inject UserManager<ApplicationUser> UserManager;
 @{
-    IdentityUser currentUser = await UserManager.GetUserAsync(User);
+    ApplicationUser currentUser = await UserManager.GetUserAsync(User);
     bool isAdmin = false;
     bool isMember = false;
     bool isUser = false;

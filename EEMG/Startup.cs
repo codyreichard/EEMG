@@ -1,4 +1,5 @@
 using EEMG.Data;
+using EEMG.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +28,7 @@ namespace EEMG
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
@@ -69,7 +70,7 @@ namespace EEMG
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             //Task<IdentityResult> roleResult;
             string email = "testAdmin@gmail.com";
 
@@ -85,12 +86,12 @@ namespace EEMG
 
             //Check if the admin user exists and create it if not
             //Add to the Administrator role
-            Task<IdentityUser> testUser = userManager.FindByEmailAsync(email);
+            Task<ApplicationUser> testUser = userManager.FindByEmailAsync(email);
             testUser.Wait();
 
             if (testUser.Result == null)
             {
-                IdentityUser administrator = new IdentityUser();
+                ApplicationUser administrator = new ApplicationUser();
                 administrator.Email = email;
                 administrator.UserName = email;
 

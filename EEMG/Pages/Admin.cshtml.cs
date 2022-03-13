@@ -34,13 +34,6 @@ namespace EEMG.Pages
                 Users.Add(u);
             }
         }
-
-
-        //public bool IsMember(IdentityUser user)
-        //{
-        //    _db.UserRoles.Where(e => e.UserId == user.UserName);
-        //    return true;
-        //}
     }
 
     public class User
