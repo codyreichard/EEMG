@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EEMG.Data;
+using EEMG.Models;
 using EEMG.Pages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,10 +32,10 @@ namespace EEMG.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeUserToMember(string userId)
         {
-            var userManager = _serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userRole = _db.UserRoles.FirstOrDefault(x => x.UserId == userId);
-            var user = _db.Users.First(x => x.Id == userId);
+            var user = _db.ApplicationUsers.First(x => x.Id == userId);
 
             // THIS LINE IS IMPORTANT
             var oldUser = userManager.FindByIdAsync(userId);

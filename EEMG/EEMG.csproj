@@ -20,6 +20,11 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20220224000249_Events.cs" />
     <Compile Remove="Data\Migrations\20220224000249_Events.Designer.cs" />
+    <Compile Remove="Pages\ShowUsers.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\ShowUsers.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
