@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using EEMG.Data;
-using EEMG.Pages;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
-using Microsoft.Extensions.FileProviders;
+using EEMG.Models;
+using EEMG.Pages;
 
 namespace EEMG.Controllers
 {
@@ -52,6 +52,24 @@ namespace EEMG.Controllers
             var eventDownload = _context.Events.First(e => e.Id == id);
             
             return File(eventDownload.FileContents, "application/vnd.openxmlformats-officedocument.presentationml.presentation", eventDownload.FileName);
+        }
+
+        [HttpGet]
+        public IActionResult SignupUserForEvent(int eventId, int userId)
+        {
+            UserEventSignUp newEventSignup = new UserEventSignUp();
+
+            newEventSignup.UserId = userId;
+            newEventSignup.EventId = eventId;
+            newEventSignup.AttendingEvent = true;
+
+
+            _context.EventUserSignUps.Add(newEventSignup);
+            _context.SaveChanges();
+
+
+            EventDetailsModel model = new EventDetailsModel(_context);
+            return View("EventDetails", model);
         }
 
         // GET: Events

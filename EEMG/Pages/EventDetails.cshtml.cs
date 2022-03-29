@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using EEMG.Data;
+using EEMG.Models;
 
 namespace EEMG.Pages
 {
@@ -13,6 +10,7 @@ namespace EEMG.Pages
     {
         private readonly EEMG.Data.ApplicationDbContext _context;
         public List<Events> Events { get; set; }
+        public List<UserEventSignUp> UserEventSignUps { get; set; }
 
         public EventDetailsModel(EEMG.Data.ApplicationDbContext context)
         {
@@ -28,7 +26,7 @@ namespace EEMG.Pages
                 events.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
 
                 Events events1 = new Events();
-                events1.EventDate = new DateTime(2021, 12, 1);
+                events1.EventDate = new DateTime(2023, 12, 1);
                 events1.EventTitle = "EEMG Luncheon DEC";
                 events1.FileName = "test.pptx";
                 events1.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
@@ -40,7 +38,7 @@ namespace EEMG.Pages
             }
 
             Events = _context.Events.ToList();
-
+            UserEventSignUps = _context.EventUserSignUps.ToList();
         }
 
 
