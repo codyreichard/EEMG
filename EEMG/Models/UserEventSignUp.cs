@@ -10,9 +10,14 @@ namespace EEMG.Models
         [ForeignKey("Events")]
         public int EventId { get; set; }
         public Events Event { get; set; }
-        [ForeignKey("ApplicationUser")]
-        public int UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        //[ForeignKey("ApplicationUser")]
+        //public int UserId { get; set; }
+        //public ApplicationUser User { get; set; }
         public bool AttendingEvent { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Organization { get; set; }
+        public string Email { get; set; }
+        public bool PaidForEvent { get; set; }
     }
 }

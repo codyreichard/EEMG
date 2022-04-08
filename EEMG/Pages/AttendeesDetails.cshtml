@@ -1,0 +1,41 @@
+﻿@model EEMG.Pages.AttendeesDetailsModel
+
+<h1> User Information </h1>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Name </th>
+                @if (Model.IsFromAdmin)
+                {
+                    <th> Email </th>
+                }
+                <th> Organization </th>
+                @if (Model.IsFromAdmin)
+                {
+                    <th> Paid for Event </th>
+                }
+                </tr>
+        </thead>
+
+        @foreach (var user in Model.UserSignUps)
+        {
+            <tr>
+                <td> @(user.FirstName + " " + user.LastName) </td>
+
+                @if (Model.IsFromAdmin)
+                {
+                    <td> @user.Email</td>
+                }
+
+                <td> @user.Organization</td>
+
+                @if (Model.IsFromAdmin)
+                {
+                    <td> @(user.PaidForEvent ? "Yes" : "No") </td>
+                }
+
+            </tr>
+        }
+    </table>
+</div>

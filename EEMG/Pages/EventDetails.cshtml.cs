@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EEMG.Models;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace EEMG.Pages
 {
@@ -12,7 +14,9 @@ namespace EEMG.Pages
         public List<Events> Events { get; set; }
         public List<UserEventSignUp> UserEventSignUps { get; set; }
 
-        public EventDetailsModel(EEMG.Data.ApplicationDbContext context)
+        public bool UserSignedUp { get; set; }
+
+        public EventDetailsModel(Data.ApplicationDbContext context, bool userSignedUp = false)
         {
             _context = context;
 
@@ -42,6 +46,29 @@ namespace EEMG.Pages
         }
 
 
+        public void OnGet()
+        {
+            //first check the session storage, this will be used if the user hasnt created an account yet 
+            var sUserSignedUp = HttpContext.Session.GetString("user_signed_up") ?? "";
+            if (bool.TryParse(sUserSignedUp, out bool signedUp))
+                UserSignedUp = signedUp;
 
+            try
+            {
+                //if they are logged in see if the event 
+                if (HttpContext != null && HttpContext.User != null)
+                {
+                    var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                    var user = _context.ApplicationUsers.FirstOrDefault(e => e.Id == userId);
+
+                    var userSignedUp = _context.EventUserSignUps.FirstOrDefault(e => e.Email.Equals(user.Email));
+
+                    if (userSignedUp != null)
+                        UserSignedUp = true;
+                }
+            }catch(Exception e) { }
+
+        }
     }
 }

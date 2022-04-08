@@ -1,4 +1,39 @@
-﻿@page
-@model EEMG.Pages.EventSignUpModel
+﻿@model EEMG.Pages.EventSignUpModel
 @{
 }
+
+<h1>Sign up For The Event </h1>
+
+<form method="post" asp-controller="Events" asp-action="SignupUserForEvent" enctype="multipart/form-data">
+    <input type="hidden" asp-for="EventId" />
+    <div class="row">
+        <div class="col-md-4">
+            <label>First Name: </label>
+            <input type="text" asp-for="FirstName" />
+        </div>
+        <div class="col-md-4">
+            <label>Last Name: </label>
+            <input type="text" asp-for="LastName" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label>Organization: </label>
+            <input type="text" asp-for="Organization" />
+        </div>
+        <div class="col-md-4">
+            <label>Email: </label>
+            <input type="text" asp-for="Email" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+            <button type="submit" class="btn btn-primary"> Sign up!</button>
+        </div>
+    </div>
+</form>
+
+
+

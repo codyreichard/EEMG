@@ -55,21 +55,56 @@ namespace EEMG.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignupUserForEvent(int eventId, int userId)
+        public IActionResult EventSignUp(int id)
         {
-            UserEventSignUp newEventSignup = new UserEventSignUp();
+            EventSignUpModel model = new EventSignUpModel(id);
+            return View("../EventSignUp", model);
+        }
 
-            newEventSignup.UserId = userId;
-            newEventSignup.EventId = eventId;
-            newEventSignup.AttendingEvent = true;
+        [HttpPost]
+        public IActionResult SignupUserForEvent(int eventId, string firstName, string lastName, string organization, string email)
+        {
+            var eventSignUps = _context.EventUserSignUps.ToList();
 
 
-            _context.EventUserSignUps.Add(newEventSignup);
-            _context.SaveChanges();
+            var userSignedUp = _context.EventUserSignUps.Where(e => e.Email == email).ToList();
 
 
-            EventDetailsModel model = new EventDetailsModel(_context);
-            return View("EventDetails", model);
+            if (userSignedUp.Count <= 0)
+            {
+                UserEventSignUp newEventSignup = new UserEventSignUp();
+                newEventSignup.EventId = eventId;
+                newEventSignup.FirstName = firstName;
+                newEventSignup.LastName = lastName;
+                newEventSignup.Organization = organization;
+                newEventSignup.Email = email;
+                newEventSignup.AttendingEvent = true;
+                newEventSignup.PaidForEvent = false;
+
+                _context.EventUserSignUps.Add(newEventSignup);
+                _context.SaveChanges();
+            }
+
+            EventDetailsModel model = new EventDetailsModel(_context, true);
+
+            HttpContext.Session.SetString("user_signed_up", "true");
+
+            //model.UserSignedUp = true;
+            return RedirectToPage("/EventDetails", model);
+        }
+
+        [HttpGet]
+        public IActionResult ShowUsersAtEvent()
+        {
+            AttendeesDetailsModel model = new AttendeesDetailsModel(_context, false);
+            return View("../AttendeesDetails", model);
+        }
+
+        [HttpGet]
+        public IActionResult ShowUsersAtEventFromAdmin()
+        {
+            AttendeesDetailsModel model = new AttendeesDetailsModel(_context, true);
+            return View("../AttendeesDetails", model);
         }
 
         // GET: Events
