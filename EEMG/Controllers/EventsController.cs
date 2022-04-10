@@ -64,33 +64,42 @@ namespace EEMG.Controllers
         [HttpPost]
         public IActionResult SignupUserForEvent(int eventId, string firstName, string lastName, string organization, string email)
         {
-            var eventSignUps = _context.EventUserSignUps.ToList();
 
-
-            var userSignedUp = _context.EventUserSignUps.Where(e => e.Email == email).ToList();
-
-
-            if (userSignedUp.Count <= 0)
+            if (ModelState.IsValid)
             {
-                UserEventSignUp newEventSignup = new UserEventSignUp();
-                newEventSignup.EventId = eventId;
-                newEventSignup.FirstName = firstName;
-                newEventSignup.LastName = lastName;
-                newEventSignup.Organization = organization;
-                newEventSignup.Email = email;
-                newEventSignup.AttendingEvent = true;
-                newEventSignup.PaidForEvent = false;
+                var eventSignUps = _context.EventUserSignUps.ToList();
 
-                _context.EventUserSignUps.Add(newEventSignup);
-                _context.SaveChanges();
+
+                var userSignedUp = _context.EventUserSignUps.Where(e => e.Email == email).ToList();
+
+
+                if (userSignedUp.Count <= 0)
+                {
+                    UserEventSignUp newEventSignup = new UserEventSignUp();
+                    newEventSignup.EventId = eventId;
+                    newEventSignup.FirstName = firstName;
+                    newEventSignup.LastName = lastName;
+                    newEventSignup.Organization = organization;
+                    newEventSignup.Email = email;
+                    newEventSignup.AttendingEvent = true;
+                    newEventSignup.PaidForEvent = false;
+
+                    _context.EventUserSignUps.Add(newEventSignup);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "That email has already been signed up for the event.");
+                    EventDetailsModel modelFailed = new EventDetailsModel(_context, false);
+                    return View("../EventSignUp");
+                }
+
+                EventDetailsModel model = new EventDetailsModel(_context, true);
+                HttpContext.Session.SetString("user_signed_up", "true");
+                return RedirectToPage("/EventDetails", model);
             }
 
-            EventDetailsModel model = new EventDetailsModel(_context, true);
-
-            HttpContext.Session.SetString("user_signed_up", "true");
-
-            //model.UserSignedUp = true;
-            return RedirectToPage("/EventDetails", model);
+            return View("../EventDetails");
         }
 
         [HttpGet]

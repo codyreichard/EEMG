@@ -31,10 +31,14 @@ namespace EEMG
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddRazorPages();
 
             //Added for session state
             services.AddDistributedMemoryCache();
+
+            //
+            //services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true);
 
             services.AddSession(options =>
             {
