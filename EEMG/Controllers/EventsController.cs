@@ -57,7 +57,7 @@ namespace EEMG.Controllers
         [HttpGet]
         public IActionResult EventSignUp(int id)
         {
-            EventSignUpModel model = new EventSignUpModel(id);
+            EventSignUpModel model = new EventSignUpModel(_context, id);
             return View("../EventSignUp", model);
         }
 

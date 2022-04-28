@@ -2,49 +2,82 @@
 @{
 }
 
-<h1>Sign up For The Event </h1>
+<link rel="stylesheet" href="~/css/event_signup.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-<form method="post" asp-controller="Events" asp-action="SignupUserForEvent" enctype="multipart/form-data">
-    <input type="hidden" asp-for="EventId" />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="col-md-4">
-            <label class="control-label">First Name: </label>
-            <input type="text" asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
+<div class="grid-container">
+    <div class="flex-child">
+        <h1>Sign up For The Event </h1>
+        <form method="post" asp-controller="Events" asp-action="SignupUserForEvent" enctype="multipart/form-data">
+            <input type="hidden" asp-for="EventId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="control-label">First Name: </label>
+                    <input type="text" asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label>Last Name: </label>
+                    <input type="text" asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="control-label">Organization: </label>
+                    <input type="text" asp-for="Organization" class="form-control" />
+                    <span asp-validation-for="Organization" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label">Email: </label>
+                    <input type="text" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm">
+                    <button type="submit" class="btn btn-primary"> Sign up!</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="flex-child">
+        <h2> Event Details </h2>
+        <div class="row">
+            <span class="label label-info">Speaker: </span>
+            <span style="font-weight:bolder;"> Cody Reichard</span>
         </div>
-        <div class="col-md-4">
-            <label>Last Name: </label>
-            <input type="text" asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
+
+        <div class="row">
+            <span class="label label-info">Speaker Bio: </span>
+            <span style="font-weight:bolder;"> Cody Reichard has been developing software for 6 years with a specialtiy in Artifical Inteligence and nueral networks.
+            At this event he will be discussing how integrating AI into products can help drive profits.</span>
+        </div>
+
+        <div class="row">
+            <span class="label label-info">Event Date: </span>
+            <span style="font-weight:bolder;"> 08/01/2022</span>
+        </div>
+
+        <div class="row">
+            <label class="control-label">Location: </label>
+            <span style="font-weight:bolder;"> EEMG Secret Meeting place </span>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <label class="control-label">Organization: </label>
-            <input type="text" asp-for="Organization" class="form-control" />
-            <span asp-validation-for="Organization" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label class="control-label">Email: </label>
-            <input type="text" asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm">
-            <button type="submit" class="btn btn-primary"> Sign up!</button>
-        </div>
-    </div>
-</form>
+</div>
 
 
 
 @section Scripts
   {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 }
 
 

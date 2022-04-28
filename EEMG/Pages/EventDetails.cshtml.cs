@@ -67,7 +67,7 @@ namespace EEMG.Pages
                     if (userSignedUp != null)
                         UserSignedUp = true;
                 }
-            }catch(Exception e) { }
+            }catch(Exception) { }
 
         }
     }
