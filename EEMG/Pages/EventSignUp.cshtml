@@ -7,6 +7,38 @@
 
 <div class="grid-container">
     <div class="flex-child">
+        <h2> Event Details </h2>
+        <div class="row">
+            <span class="label label-info">Speaker: </span>
+            <span style="font-weight:bolder;"> Cody Reichard</span>
+        </div>
+        <hr />
+
+        <div class="row">
+            <span class="label label-info">Speaker Bio: </span>
+            <span style="font-weight:bolder;">
+                Cody Reichard has been developing software for 6 years with a specialtiy in Artifical Inteligence and nueral networks.
+                At this event he will be discussing how integrating AI into products can help drive profits.
+            </span>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <span class="label label-info">Event Date: </span>
+            <span style="font-weight:bolder;"> 08/01/2022</span>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <label class="control-label">Location: </label>
+            <span style="font-weight:bolder;"> EEMG Secret Meeting place </span>
+        </div>
+    </div>
+
+
+    <div class="flex-child">
         <h1>Sign up For The Event </h1>
         <form method="post" asp-controller="Events" asp-action="SignupUserForEvent" enctype="multipart/form-data">
             <input type="hidden" asp-for="EventId" />
@@ -37,6 +69,7 @@
                 </div>
             </div>
 
+            <br>
             <div class="row">
                 <div class="col-sm">
                     <button type="submit" class="btn btn-primary"> Sign up!</button>
@@ -45,29 +78,7 @@
         </form>
     </div>
 
-    <div class="flex-child">
-        <h2> Event Details </h2>
-        <div class="row">
-            <span class="label label-info">Speaker: </span>
-            <span style="font-weight:bolder;"> Cody Reichard</span>
-        </div>
 
-        <div class="row">
-            <span class="label label-info">Speaker Bio: </span>
-            <span style="font-weight:bolder;"> Cody Reichard has been developing software for 6 years with a specialtiy in Artifical Inteligence and nueral networks.
-            At this event he will be discussing how integrating AI into products can help drive profits.</span>
-        </div>
-
-        <div class="row">
-            <span class="label label-info">Event Date: </span>
-            <span style="font-weight:bolder;"> 08/01/2022</span>
-        </div>
-
-        <div class="row">
-            <label class="control-label">Location: </label>
-            <span style="font-weight:bolder;"> EEMG Secret Meeting place </span>
-        </div>
-    </div>
 
 </div>
 
