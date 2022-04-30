@@ -87,7 +87,7 @@ namespace EEMG.Controllers
         {
             try
             {
-                MailMessage message = new MailMessage("eemgdayton@gmail.com", "marawarner13@gmail.com", subject, body);
+                MailMessage message = new MailMessage("eemgdayton@gmail.com", "codyreichard31@gmail.com", subject, body);
                 
 
                 SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
