@@ -9,30 +9,46 @@
     <div class="flex-child">
         <h2> Event Details </h2>
         <div class="row">
-            <span class="label label-info">Speaker: </span>
-            <span style="font-weight:bolder;"> @Model.Event.Speaker</span>
+            <div class="col-md-12">
+                <span style="font-weight:bolder; text-decoration: underline;">Speaker: </span>
+                <br />
+                <span> <em>@Model.Event.Speaker</span> </em>
+            </div>
         </div>
         <hr />
 
         <div class="row">
-            <span class="label label-info">Speaker Bio: </span>
-            <span style="font-weight:bolder;">
-                @Model.Event.SpeakerBio
-            </span>
+            <div class="col-md-12">
+                <span style="font-weight:bolder; text-decoration: underline;">Speaker Bio: </span>
+                <br />
+                <span>
+                    <em> @Model.Event.SpeakerBio </em>
+                </span>
+            </div>
         </div>
 
         <hr />
 
         <div class="row">
-            <span class="label label-info">Event Date: </span>
-            <span style="font-weight:bolder;"> @Model.Event.EventDate</span>
+            <div class="col-md-12">
+                <span style="font-weight:bolder; text-decoration: underline;">Event Date: </span>
+                <br />
+                <span>
+                    <em> @Model.Event.EventDate </em>
+                </span>
+            </div>
         </div>
 
         <hr />
 
         <div class="row">
-            <label class="control-label">Location: </label>
-            <span style="font-weight:bolder;"> @Model.Event.EventLocation</span>
+            <div class="col-md-12">
+                <label style="font-weight:bolder; text-decoration: underline;">Location: </label>
+                <br />
+                <span>
+                    <em> @Model.Event.EventLocation </em>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -43,25 +59,27 @@
             <input type="hidden" asp-for="EventId" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="control-label">First Name: </label>
                     <input type="text" asp-for="FirstName" class="form-control" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label>Last Name: </label>
                     <input type="text" asp-for="LastName" class="form-control" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
             </div>
 
+            <hr />
+
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="control-label">Organization: </label>
                     <input type="text" asp-for="Organization" class="form-control" />
                     <span asp-validation-for="Organization" class="text-danger"></span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="control-label">Email: </label>
                     <input type="text" asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
@@ -70,7 +88,7 @@
 
             <br>
             <div class="row">
-                <div class="col-sm">
+                <div class="col-md-6">
                     <button type="submit" class="btn btn-primary"> Sign up!</button>
                 </div>
             </div>
