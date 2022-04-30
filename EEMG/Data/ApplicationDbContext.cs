@@ -9,7 +9,7 @@ namespace EEMG.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public DbSet<Events> Events { get; set; }
+        public DbSet<Event> Events { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<UserEventSignUp> EventUserSignUps { get; set; }
 

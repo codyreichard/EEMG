@@ -17,16 +17,40 @@
             <div class="col-md-4">
                 <span class="label label-default" style="font-weight:bold;">Event Time *</span>
                 <input type="datetime-local" asp-for="EventTime"
-                       name="eventTime" >
+                       name="eventTime"  step="1" value="@DateTime.Now.ToString("s")">
             </div>
         </div>
-
         <hr />
+
+        <div class="row">
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold;">Event Location*</span>
+                <input type="text" asp-for="EventLocation">
+            </div>
+        </div>
+        <hr />
+
 
         <div class="row">
             <div class="col-md-4">
                 <span class="label label-default" style="font-weight:bold;">Event File *</span>
                 <input type="file" asp-for="EventFile" name="eventFile">
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold;">Event Speaker</span>
+                <input type="text" asp-for="Speaker">
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold;">Speaker Bio </span>
+                <input type="text" asp-for="SpeakerBio">
             </div>
         </div>
 
@@ -37,16 +61,6 @@
                 <input type="submit" class="btn btn-success">
             </div>
         </div>
-
-
-        @*<div class="row">
-            <div class="col-md-4">
-                <span class="label label-default" style="font-weight:bold;">Event Time *</span>
-                <input type="datetime-local" id="meeting-time"
-                       name="meeting-time" value="2018-06-12T19:30"
-                       min="2018-06-07T00:00" max="2018-06-14T00:00">
-            </div>
-        </div>*@
     </div>
 
 </form>

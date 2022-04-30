@@ -10,15 +10,14 @@
         <h2> Event Details </h2>
         <div class="row">
             <span class="label label-info">Speaker: </span>
-            <span style="font-weight:bolder;"> Cody Reichard</span>
+            <span style="font-weight:bolder;"> @Model.Event.Speaker</span>
         </div>
         <hr />
 
         <div class="row">
             <span class="label label-info">Speaker Bio: </span>
             <span style="font-weight:bolder;">
-                Cody Reichard has been developing software for 6 years with a specialtiy in Artifical Inteligence and nueral networks.
-                At this event he will be discussing how integrating AI into products can help drive profits.
+                @Model.Event.SpeakerBio
             </span>
         </div>
 
@@ -26,14 +25,14 @@
 
         <div class="row">
             <span class="label label-info">Event Date: </span>
-            <span style="font-weight:bolder;"> 08/01/2022</span>
+            <span style="font-weight:bolder;"> @Model.Event.EventDate</span>
         </div>
 
         <hr />
 
         <div class="row">
             <label class="control-label">Location: </label>
-            <span style="font-weight:bolder;"> EEMG Secret Meeting place </span>
+            <span style="font-weight:bolder;"> @Model.Event.EventLocation</span>
         </div>
     </div>
 

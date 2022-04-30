@@ -9,7 +9,7 @@ namespace EEMG.Models
         public int Id { get; set; }
         [ForeignKey("Events")]
         public int EventId { get; set; }
-        public Events Event { get; set; }
+        public Event Event { get; set; }
         //[ForeignKey("ApplicationUser")]
         //public int UserId { get; set; }
         //public ApplicationUser User { get; set; }

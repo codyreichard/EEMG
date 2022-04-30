@@ -19,13 +19,16 @@ namespace EEMG.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddEvent(string eventTitle, DateTime eventTime, IFormFile eventFile) {
-            Events newEvent = new Events();
+        public IActionResult AddEvent(string eventTitle, DateTime eventTime, IFormFile eventFile, string speaker, string speakerBio, string eventLocation) {
+            Event newEvent = new Event();
             newEvent.EventTitle = eventTitle;
             newEvent.EventDate = eventTime;
-            newEvent.FileName = eventFile.FileName;
+            newEvent.FileName = eventFile?.FileName;
+            newEvent.Speaker = speaker;
+            newEvent.SpeakerBio = speakerBio;
+            newEvent.EventLocation = eventLocation;
 
-            if (eventFile.Length > 0)
+            if (eventFile != null && eventFile.Length > 0)
             {
                 using (var ms = new MemoryStream())
                 {

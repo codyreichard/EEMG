@@ -8,7 +8,7 @@ namespace EEMG.Pages
     public class EventSignUpModel : PageModel
     {
         public int EventId { get; set; }
-        public Events Event { get; set; }
+        public Event Event { get; set; }
 
         [Required(ErrorMessage = "You must enter a First Name")]
         public string FirstName { get; set; }

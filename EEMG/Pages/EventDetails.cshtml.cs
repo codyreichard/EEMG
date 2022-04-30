@@ -11,7 +11,7 @@ namespace EEMG.Pages
     public class EventDetailsModel : PageModel
     {
         private readonly EEMG.Data.ApplicationDbContext _context;
-        public List<Events> Events { get; set; }
+        public List<Event> Events { get; set; }
         public List<UserEventSignUp> UserEventSignUps { get; set; }
 
         public bool UserSignedUp { get; set; }
@@ -23,13 +23,13 @@ namespace EEMG.Pages
 
             if (_context.Events.Count() <= 1)
             {
-                Events events = new Events();
+                Event events = new Event();
                 events.EventDate = new DateTime(2021,10,1);
                 events.EventTitle = "EEMG Luncheon OCT";
                 events.FileName = "test.pptx";
                 events.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
 
-                Events events1 = new Events();
+                Event events1 = new Event();
                 events1.EventDate = new DateTime(2023, 12, 1);
                 events1.EventTitle = "EEMG Luncheon DEC";
                 events1.FileName = "test.pptx";
