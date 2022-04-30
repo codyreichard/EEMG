@@ -52,6 +52,21 @@ namespace EEMG.Data.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("EEMG.Models.MailingList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MailingList");
+                });
+
             modelBuilder.Entity("EEMG.Models.UserEventSignUp", b =>
                 {
                     b.Property<int>("Id")

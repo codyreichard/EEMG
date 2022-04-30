@@ -31,6 +31,10 @@ namespace EEMG.Pages
                 u.UserId = user.Id;
                 u.RoleId = role.RoleId;
                 u.RoleName = _db.Roles.Where(e => e.Id == role.RoleId).FirstOrDefault().Name;
+                u.Email = user.Email;
+                u.AlreadyOnMailingList = _db.MailingList.Where(e => e.Email == user.Email).Count() > 0;
+
+
                 Users.Add(u);
             }
         }
@@ -42,5 +46,7 @@ namespace EEMG.Pages
         public string RoleName { get; set; }
         public string UserId { get; set; }
         public string RoleId { get; set; }
+        public string Email { get; set; }
+        public bool AlreadyOnMailingList { get; set; }
     }
 }

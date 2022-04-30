@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using EEMG.Data;
 using EEMG.Models;
@@ -51,6 +52,57 @@ namespace EEMG.Controllers
 
             AdminModel model = new AdminModel(_db);
             return new OkObjectResult(new { success = true, message = "" });
+        }
+
+        [HttpPost]
+        public IActionResult AddUserToMailingList(string email)
+        {
+            MailingList ml = new MailingList() { Email = email };
+
+            _db.MailingList.Add(ml);
+            _db.SaveChanges();
+            
+
+            AdminModel model = new AdminModel(_db);
+            return new OkObjectResult(new { success = true, message = "" });
+        }
+
+        [HttpPost]
+        public IActionResult RemoveUserFromMailingList(string email)
+        {
+            var ml = _db.MailingList.FirstOrDefault(e => e.Email == email);
+
+            if (ml != null)
+            {
+                _db.MailingList.Remove(ml);
+                _db.SaveChanges();
+            }
+
+            AdminModel model = new AdminModel(_db);
+            return new OkObjectResult(new { success = true, message = "" });
+        }
+
+        [HttpGet]
+        public IActionResult SendEmail(string subject, string body)
+        {
+            try
+            {
+                MailMessage message = new MailMessage("eemgdayton@gmail.com", "marawarner13@gmail.com", subject, body);
+                
+
+                SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                client.EnableSsl = true;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential("eemgdayton@gmail.com", "1qazXSW@3edcVFR$");
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+            }
+
+            AdminModel model = new AdminModel(_db);
+            return RedirectToPage("/Admin", model);
         }
 
         [HttpGet]

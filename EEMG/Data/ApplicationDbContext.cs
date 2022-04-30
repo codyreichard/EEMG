@@ -12,6 +12,7 @@ namespace EEMG.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<UserEventSignUp> EventUserSignUps { get; set; }
+        public DbSet<MailingList> MailingList { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
