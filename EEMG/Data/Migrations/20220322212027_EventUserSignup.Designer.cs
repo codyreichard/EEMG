@@ -4,22 +4,24 @@ using EEMG.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EEMG.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220322212027_EventUserSignup")]
+    partial class EventUserSignup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.23")
+                .HasAnnotation("ProductVersion", "3.1.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EEMG.Event", b =>
+            modelBuilder.Entity("EEMG.Events", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,9 +31,6 @@ namespace EEMG.Data.Migrations
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EventLocation")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("EventTitle")
                         .HasColumnType("nvarchar(max)");
 
@@ -39,12 +38,6 @@ namespace EEMG.Data.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Speaker")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SpeakerBio")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -62,27 +55,20 @@ namespace EEMG.Data.Migrations
                     b.Property<bool>("AttendingEvent")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Organization")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PaidForEvent")
-                        .HasColumnType("bit");
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("EventUserSignUps");
                 });
@@ -311,11 +297,15 @@ namespace EEMG.Data.Migrations
 
             modelBuilder.Entity("EEMG.Models.UserEventSignUp", b =>
                 {
-                    b.HasOne("EEMG.Event", "Event")
+                    b.HasOne("EEMG.Events", "Event")
                         .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("EEMG.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

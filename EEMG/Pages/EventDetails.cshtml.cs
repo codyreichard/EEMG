@@ -1,34 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using EEMG.Data;
+using EEMG.Models;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace EEMG.Pages
 {
     public class EventDetailsModel : PageModel
     {
         private readonly EEMG.Data.ApplicationDbContext _context;
-        public List<Events> Events { get; set; }
+        public List<Event> Events { get; set; }
+        public List<UserEventSignUp> UserEventSignUps { get; set; }
 
-        public EventDetailsModel(EEMG.Data.ApplicationDbContext context)
+        public bool UserSignedUp { get; set; }
+
+        public EventDetailsModel(Data.ApplicationDbContext context, bool userSignedUp = false)
         {
             _context = context;
 
 
             if (_context.Events.Count() <= 1)
             {
-                Events events = new Events();
+                Event events = new Event();
                 events.EventDate = new DateTime(2021,10,1);
                 events.EventTitle = "EEMG Luncheon OCT";
                 events.FileName = "test.pptx";
                 events.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
 
-                Events events1 = new Events();
-                events1.EventDate = new DateTime(2021, 12, 1);
+                Event events1 = new Event();
+                events1.EventDate = new DateTime(2023, 12, 1);
                 events1.EventTitle = "EEMG Luncheon DEC";
                 events1.FileName = "test.pptx";
                 events1.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
@@ -40,10 +42,33 @@ namespace EEMG.Pages
             }
 
             Events = _context.Events.ToList();
-
+            UserEventSignUps = _context.EventUserSignUps.ToList();
         }
 
 
+        public void OnGet()
+        {
+            //first check the session storage, this will be used if the user hasnt created an account yet 
+            var sUserSignedUp = HttpContext.Session.GetString("user_signed_up") ?? "";
+            if (bool.TryParse(sUserSignedUp, out bool signedUp))
+                UserSignedUp = signedUp;
 
+            try
+            {
+                //if they are logged in see if the event 
+                if (HttpContext != null && HttpContext.User != null)
+                {
+                    var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                    var user = _context.ApplicationUsers.FirstOrDefault(e => e.Id == userId);
+
+                    var userSignedUp = _context.EventUserSignUps.FirstOrDefault(e => e.Email.Equals(user.Email));
+
+                    if (userSignedUp != null)
+                        UserSignedUp = true;
+                }
+            }catch(Exception) { }
+
+        }
     }
 }

@@ -15,6 +15,9 @@ namespace EEMG.Pages
         //public string FileName { get; set; }
         //public byte[] FileContents { get; set; }
         public IFormFile EventFile { get; set; }
+        public string Speaker { get; set; }
+        public string SpeakerBio { get; set; }
+        public string EventLocation { get; set; }
 
         public CreateEventModel() { }
     }

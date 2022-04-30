@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EEMG.Data
+namespace EEMG
 {
-    public class Events
+    public class Event
     {
         public int Id { get; set; }
         public DateTime EventDate { get; set; }
@@ -15,7 +15,10 @@ namespace EEMG.Data
 
         public string FileName { get; set; }
         public byte[] FileContents { get; set; }
+        public string Speaker { get; set; }
+        public string SpeakerBio { get; set; }
+        public string EventLocation { get; set; }
 
-        public Events() { }
+        public Event() { }
     }
 }

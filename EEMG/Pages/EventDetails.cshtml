@@ -1,5 +1,20 @@
 ﻿@page
 @model EEMG.Pages.EventDetailsModel
+@using EEMG.Models;
+@inject UserManager<ApplicationUser> UserManager;
+@{
+    ApplicationUser currentUser = await UserManager.GetUserAsync(User);
+    bool isAdmin = false;
+    bool isMember = false;
+    bool isUser = false;
+    if (currentUser != null)
+    {
+        var roles = await UserManager.GetRolesAsync(currentUser);
+        isAdmin = roles.Contains("Administrator");
+        isMember = roles.Contains("Member");
+        isUser = roles.Contains("User");
+    }
+}
 
 @{
     ViewData["Title"] = "Event Details";
@@ -9,23 +24,38 @@
 <hr />
 
 <div>
-    @foreach (Events events in Model.Events)
+    @foreach (Event events in Model.Events)
     {
-    <div class="card">
-        <div class="card-body">
-            <label class="card-title"> @events.EventTitle</label>
-            <br>
-            <b> @events.EventDate.ToShortDateString() </b>
-            <div>
-                <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="DownloadFile" class="btn btn-info">Download Event Document</a>
+        <div class="card">
+            <div class="card-body">
+                <label class="card-title"> @events.EventTitle</label>
+                <br>
+                <b> @events.EventDate.ToShortDateString() </b>
+                <div>
+                    <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="DownloadFile" class="btn btn-info">Download Event Document</a>
+                    <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="ShowUsersAtEvent" class="btn btn-info">Show Attendees</a>
+                    @if (events.EventDate > DateTime.Now && !Model.UserSignedUp) //&& Model.UserEventSignUps.Where(e => e.User.Id != currentUser.Id).ToList().Count > 0)
+                    {
+                        <div style="float:right; margin-left:-20%">
+                            <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="EventSignUp" class="btn btn-info">Sign up for Event!</a>
+                        </div>
+                    }
+                    else if (events.EventDate > DateTime.Now && Model.UserSignedUp)
+                    {
+                        <div style="float:right; margin-left:-20%">
+                            <button disabled class="btn btn-success"> Signed Up for Event.</button>
+                        </div>
+                    }
+                </div>
+
+
             </div>
         </div>
-    </div>
-    <br />
+        <br />
     }
 </div>
 
 
 @section scripts {
-    <script src="~/js/events.js" > </script>
+    <script src="~/js/events.js"></script>
 }
