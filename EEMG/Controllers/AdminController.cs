@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace EEMG.Controllers
     {
         private ApplicationDbContext _db;
         private IServiceProvider _serviceProvider;
+        private readonly string SENDER_EMAIL = "eemgdayton@gmail.com";
+        private readonly string SUPER_SECRET_PASSWORD = "1qazXSW@3edcVFR$";
 
         public AdminController(ApplicationDbContext context, IServiceProvider provider)
         {
@@ -83,18 +86,20 @@ namespace EEMG.Controllers
         }
 
         [HttpGet]
-        public IActionResult SendEmail(string subject, string body)
+        public IActionResult SendEmail(string subject, string body, bool memberOnly, bool eventParticipantsOnly, bool entireMailingList)
         {
             try
             {
-                MailMessage message = new MailMessage("eemgdayton@gmail.com", "codyreichard31@gmail.com", subject, body);
-                
+                MailMessage message = new MailMessage(SENDER_EMAIL, "codyreichard31@gmail.com", subject, body);
+
+                var usersEmail = GetEmailList(memberOnly, eventParticipantsOnly, entireMailingList);
+
 
                 SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
                 client.EnableSsl = true;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new System.Net.NetworkCredential("eemgdayton@gmail.com", "1qazXSW@3edcVFR$");
+                client.Credentials = new System.Net.NetworkCredential(SENDER_EMAIL, SUPER_SECRET_PASSWORD);
                 client.Send(message);
             }
             catch (Exception ex)
@@ -103,6 +108,34 @@ namespace EEMG.Controllers
 
             AdminModel model = new AdminModel(_db);
             return RedirectToPage("/Admin", model);
+        }
+
+        private List<string> GetEmailList(bool memberOnly, bool eventParticipantsOnly, bool entireMailingList)
+        {
+            if (memberOnly)
+            {
+                var userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                List<string> memberEmails = new List<string>();
+                foreach (var user in _db.ApplicationUsers.ToList())
+                {
+                    var userRole = _db.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
+                    if (_db.Roles.FirstOrDefault(x => x.Id == userRole.RoleId)?.Name == "Member")
+                        memberEmails.Add(user.Email);
+                }
+
+                return memberEmails;
+            }
+            else if (eventParticipantsOnly)
+            {
+                return _db.EventUserSignUps.Select(e => e.Email).ToList();
+            }
+            else if (entireMailingList)
+            {
+                return _db.MailingList.Select(e => e.Email).ToList();
+            }
+            return new List<string>();
         }
 
         [HttpGet]

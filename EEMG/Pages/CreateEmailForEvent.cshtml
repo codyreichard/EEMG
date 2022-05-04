@@ -10,6 +10,25 @@
 <form method="get" asp-controller="Admin" asp-action="SendEmail" enctype="multipart/form-data">
     <div>
         <div class="row">
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold; margin-right:2%;">Member Only?</span>
+                <input type="checkbox" asp-for="MemberOnly" >
+            </div>
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold; margin-right:2%;">Event Participants Only?</span>
+                <input type="checkbox" asp-for="EventParticipantsOnly" >
+            </div>
+            <div class="col-md-4">
+                <span class="label label-default" style="font-weight:bold; margin-right:2%;">Entire Mailing List?</span>
+                <input type="checkbox" asp-for="EntireMailingList">
+            </div>
+        </div>
+        <hr />
+    </div>
+
+
+    <div>
+        <div class="row">
             <div class="col-md-6">
                 <span class="label label-default" style="font-weight:bold; margin-right:2%;">Email Subject </span>
                 <input type="text" asp-for="Subject" class="form-control">

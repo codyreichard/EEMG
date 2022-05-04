@@ -11,6 +11,9 @@ namespace EEMG.Pages
     {
         public string Subject { get; set; }
         public string Body { get; set; }
+        public bool MemberOnly { get; set; }
+        public bool EventParticipantsOnly { get; set; }
+        public bool EntireMailingList { get; set; }
 
         public CreateEmailForEventModel() { }
         public void OnGet()
