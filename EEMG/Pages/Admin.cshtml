@@ -16,7 +16,11 @@
         <a asp-area="" asp-action="ShowUsersAtEventFromAdmin" asp-controller="Events" class="btn btn-info"> View Upcoming Event Report</a>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-sm-4" style="margin-top: 2%;">
+        <a asp-area="" asp-page="/CreateEmailForEvent" class="btn btn-info"> Send Latest Event Email</a>
+    </div>
+</div>
 <hr />
 
 <h1> User Information </h1>
@@ -27,6 +31,7 @@
                 <th> User Email </th>
                 <th> Role</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
 
@@ -36,7 +41,24 @@
                 <td> @user.UserName</td>
                 <td> @user.RoleName</td>
                 <td style="text-align:center;">
-                    <button class="btn btn-primary btn-xs" id="change-membership" value="@user.UserId"> Make Member</button>
+                    @if (user.RoleName != "Member")
+                    {
+                        <button class="btn btn-primary btn-xs" id="change-membership" value="@user.UserId"> Make Member</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-dark btn-xs" value="@user.UserId" disabled> Make Member</button>
+                    }
+                </td>
+                <td style="text-align:center;">
+                    @if (!user.AlreadyOnMailingList)
+                    {
+                        <button class="btn btn-primary btn-xs" id="add-to-mailing-list" value="@user.Email"> Add to Mailing List </button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-warning btn-xs" id="remove-from-mailing-list" value="@user.Email"> Remove from Mailing List </button>
+                    }
                 </td>
             </tr>
         }

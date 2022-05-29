@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using EEMG.Data;
 using EEMG.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -25,19 +26,22 @@ namespace EEMG.Areas.Identity.Pages.Account
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
+            _db = db;
         }
 
         [BindProperty]
@@ -74,6 +78,8 @@ namespace EEMG.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Organization")]
             public string Organization { get; set; }
+            [Display(Name = "Join Mailing List?")]
+            public bool JoinMailingList { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -108,18 +114,17 @@ namespace EEMG.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    //{
-                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    //}
-                    //else
-                    //{
+                    if (Input.JoinMailingList)
+                    {
+                        MailingList ml = new MailingList() { Email = Input.Email };
+                        _db.MailingList.Add(ml);
+                        await _db.SaveChangesAsync();
+                    }
+                    
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
-                    //}
+                    
                 }
                 foreach (var error in result.Errors)
                 {

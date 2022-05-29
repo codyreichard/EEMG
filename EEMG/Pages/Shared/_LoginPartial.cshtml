@@ -1,7 +1,12 @@
 ﻿@using EEMG.Models;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@{ 
+    string pageUrl = @Context.Request.Path.ToString();
+    Console.WriteLine();
+}
 
+<link rel="stylesheet" href="~/css/site.css" />
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
@@ -16,11 +21,11 @@
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    <li class="nav-item underline-style @(pageUrl.Contains(@"/Identity/Account/Register") ? "active" : string.Empty)">
+        <a class="nav-link text-light " asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    <li class="nav-item underline-style @(pageUrl.Contains(@"/Identity/Account/Login") ? "active" : string.Empty)">
+        <a class="nav-link text-light " asp-area="Identity" asp-page="/Account/Login">Login</a> 
     </li>
 }
 </ul>
