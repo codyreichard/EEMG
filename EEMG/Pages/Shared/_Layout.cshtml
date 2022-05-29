@@ -1,4 +1,6 @@
 ﻿@using EEMG.Models;
+@using EEMG.Helpers; 
+
 @inject UserManager<ApplicationUser> UserManager;
 @{
     ApplicationUser currentUser = await UserManager.GetUserAsync(User);
@@ -12,6 +14,8 @@
         isMember = roles.Contains("Member");
         isUser = roles.Contains("User");
     }
+        
+    string pageUrl = @Context.Request.Path.ToString();
 }
 
 <!DOCTYPE html>
@@ -25,7 +29,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <img src="~/eemg_small.jpg" />
             @*<a class="navbar-brand" asp-area="" asp-page="/Index">EEMG </a>*@
             <div class="container">
@@ -36,17 +40,17 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        <li class="nav-item underline-style @(pageUrl == ("/") ? "active" : string.Empty)">
+                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-page="/EventDetails">Events</a>
+                        <li class="nav-item underline-style @(pageUrl.ToLower().Contains("eventdetails") ? "active" : string.Empty)">
+                            <a class="nav-link text-light " asp-area="" asp-page="/EventDetails">Events</a>
                         </li>
 
                         @if (isAdmin)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin">Admin</a>
+                            <li class="nav-item underline-style @(pageUrl.ToLower().Contains("admin") ? "active" : string.Empty)">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Admin">Admin</a>
                             </li>
                         }
                     </ul>
