@@ -57,6 +57,7 @@ namespace EEMG.Controllers
             return new OkObjectResult(new { success = true, message = "" });
         }
 
+        #region Mailing 
         [HttpPost]
         public IActionResult AddUserToMailingList(string email)
         {
@@ -64,7 +65,7 @@ namespace EEMG.Controllers
 
             _db.MailingList.Add(ml);
             _db.SaveChanges();
-            
+
 
             AdminModel model = new AdminModel(_db);
             return new OkObjectResult(new { success = true, message = "" });
@@ -104,6 +105,8 @@ namespace EEMG.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
+                Console.WriteLine("Error sending email");
             }
 
             AdminModel model = new AdminModel(_db);
@@ -137,11 +140,36 @@ namespace EEMG.Controllers
             }
             return new List<string>();
         }
+        #endregion
 
+        #region Events
         [HttpGet]
         public IActionResult AddEvent()
         {
-            return RedirectToAction("~/CreateEvent");
+            CreateEventModel model = new CreateEventModel(_db);
+            return View("../CreateEvent", model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ArchiveEvent(int eventId)
+        {
+            var currEvent = _db.Events.FirstOrDefault(eve => eve.Id == eventId);
+            currEvent.Archived = true;
+
+            await _db.SaveChangesAsync();
+
+            AdminModel model = new AdminModel(_db);
+
+            return RedirectToPage("/Admin");
+        }
+
+        [HttpGet]
+        public IActionResult EditEvent(int eventId)
+        {
+            CreateEventModel model = new CreateEventModel(_db, eventId);
+            return RedirectToAction("EditEvent", "Events", new { id = eventId } );
+        }
+
+        #endregion
     }
 }

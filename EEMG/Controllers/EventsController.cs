@@ -19,8 +19,14 @@ namespace EEMG.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddEvent(string eventTitle, DateTime eventTime, IFormFile eventFile, string speaker, string speakerBio, string eventLocation) {
-            Event newEvent = new Event();
+        public IActionResult AddEvent(int id, string eventTitle, DateTime eventTime, IFormFile eventFile, string speaker, string speakerBio, string eventLocation) {
+
+            Event newEvent;
+            if (id <= 0)
+                newEvent = new Event();
+            else
+                newEvent = _context.Events.FirstOrDefault(e => e.Id == id);
+
             newEvent.EventTitle = eventTitle;
             newEvent.EventDate = eventTime;
             newEvent.FileName = eventFile?.FileName;
@@ -39,8 +45,9 @@ namespace EEMG.Controllers
                 }
             }
 
+            if (id < 0)
+                _context.Events.Add(newEvent);
 
-            _context.Events.Add(newEvent);
             _context.SaveChanges();
 
 
@@ -48,6 +55,13 @@ namespace EEMG.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+
+        [HttpGet]
+        public IActionResult EditEvent(int id)
+        {
+            CreateEventModel model = new CreateEventModel(_context, id);
+            return View("../CreateEvent", model);
+        }
 
         [HttpGet]
         public FileContentResult DownloadFile(int id)
@@ -118,136 +132,5 @@ namespace EEMG.Controllers
             AttendeesDetailsModel model = new AttendeesDetailsModel(_context, true);
             return View("../AttendeesDetails", model);
         }
-
-        // GET: Events
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Events.ToListAsync());
-        //}
-
-        //// GET: Events/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var events = await _context.Events
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (events == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(events);
-        //}
-
-        //// GET: Events/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Events/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,EventDate,EventTitle,FileName,FileContents")] Events events)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(events);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(events);
-        //}
-
-        //// GET: Events/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var events = await _context.Events.FindAsync(id);
-        //    if (events == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(events);
-        //}
-
-        //// POST: Events/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,EventDate,EventTitle,FileName,FileContents")] Events events)
-        //{
-        //    if (id != events.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(events);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!EventsExists(events.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(events);
-        //}
-
-        //// GET: Events/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var events = await _context.Events
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (events == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(events);
-        //}
-
-        //// POST: Events/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var events = await _context.Events.FindAsync(id);
-        //    _context.Events.Remove(events);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool EventsExists(int id)
-        //{
-        //    return _context.Events.Any(e => e.Id == id);
-        //}
     }
 }

@@ -18,6 +18,7 @@ namespace EEMG
         public string Speaker { get; set; }
         public string SpeakerBio { get; set; }
         public string EventLocation { get; set; }
+        public bool Archived { get; set; }
 
         public Event() { }
     }
