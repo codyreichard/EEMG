@@ -1,0 +1,37 @@
+﻿/*Navbar styles*/
+
+.navbar-custom {
+    background-color: lightblue;
+}
+    /*Navbar brand styles*/
+
+    .navbar-custom .navbar-brand {
+        color: black;
+    }
+        /*Navbar brand hover styles*/
+
+        .navbar-custom .navbar-brand:hover,
+        .navbar-custom .navbar-brand:focus {
+            color: blue;
+        }
+    /*Navbar anchor styles*/
+
+    .navbar-custom .nav.navbar-nav li a {
+        color: black;
+        font-weight: bold;
+    }
+    /*Navbar anchor hover styles*/
+
+    .navbar-custom .nav > li > a:focus,
+    .navbar-custom .nav > li > a:hover {
+        background-color: #eee;
+    }
+    /* Mobile navbar toggle styles*/
+
+    .navbar-custom .navbar-toggle {
+        border-color: #333;
+    }
+
+        .navbar-custom .navbar-toggle .icon-bar {
+            background-color: #333;
+        }

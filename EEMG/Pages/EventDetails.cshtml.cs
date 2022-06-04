@@ -41,7 +41,7 @@ namespace EEMG.Pages
                 _context.SaveChanges();
             }
 
-            Events = _context.Events.ToList();
+            Events = _context.Events.Where(e => e.Archived != true).ToList();
             UserEventSignUps = _context.EventUserSignUps.ToList();
         }
 

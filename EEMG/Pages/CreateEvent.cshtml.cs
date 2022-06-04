@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EEMG.Data;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Linq;
 
 namespace EEMG.Pages
 {
@@ -18,7 +16,26 @@ namespace EEMG.Pages
         public string Speaker { get; set; }
         public string SpeakerBio { get; set; }
         public string EventLocation { get; set; }
+        public int Id { get; set; }
 
-        public CreateEventModel() { }
+
+        private ApplicationDbContext db;
+        //public CreateEventModel() { }
+
+        public CreateEventModel(ApplicationDbContext db, int id = -1)
+        {
+            this.db = db;
+            if (id > 0)
+            {
+                var eve = db.Events.FirstOrDefault(e => e.Id == id);
+
+                EventTitle = eve.EventTitle;
+                EventTime = eve.EventDate;
+                Speaker = eve.Speaker;
+                SpeakerBio = eve.SpeakerBio;
+                EventLocation = eve.EventLocation;
+                Id = id;
+            }
+        }
     }
 }

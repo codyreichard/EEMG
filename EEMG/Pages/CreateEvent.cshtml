@@ -1,11 +1,18 @@
-﻿@page
-@model EEMG.Pages.CreateEventModel
+﻿@model EEMG.Pages.CreateEventModel
 
 
-<h1> Add New Event! </h1>
+@if (Model.Id <= 0)
+{
+    <h1> Add New Event! </h1>
+}
+else
+{
+<h1> Edit Event - <em> <u> @Model.EventTitle </u></em></h1>
+}
 <hr />
 
 <form method="post" asp-controller="Events" asp-action="AddEvent" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
     <div>
         <div class="row">
             <div class="col-md-6">
@@ -19,7 +26,7 @@
             <div class="col-md-6">
                 <span class="label label-default" style="font-weight:bold;">Event Time </span>
                 <input type="datetime-local" asp-for="EventTime"
-                       name="eventTime"  step="1" value="@DateTime.Now.ToString("s")" class="form-control">
+                       name="eventTime" step="1" value="@DateTime.Now.ToString("s")" class="form-control">
             </div>
         </div>
         <hr />
@@ -61,7 +68,14 @@
 
         <div class="row">
             <div class="col-md-4">
-                <input type="submit" class="btn btn-success">
+                @if (Model.Id <= 0)
+                {
+                    <input type="submit" class="btn btn-success" value="Add">
+                }
+                else
+                {
+                    <input type="submit" class="btn btn-success" value="Update">
+                }
             </div>
         </div>
     </div>

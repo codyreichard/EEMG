@@ -45,16 +45,3 @@ $(document).on('click', '#remove-from-mailing-list', function (event) {
             console.log('Failed to Changed Member to a user!');
         });
 });
-
-
-//$(document).on('click', '#add-event', function (event) {
-//    var userId = $(this).val();
-//    $.get({
-//        url: '/Admin/AddEvent',
-//        data: {}
-//    })
-//        .done(function (event) {
-//        })
-//        .fail(function (event) {
-//        });
-//});

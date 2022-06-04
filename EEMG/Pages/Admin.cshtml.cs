@@ -14,13 +14,15 @@ namespace EEMG.Pages
 {
     public class AdminModel : PageModel
     {
-        private ApplicationDbContext _db;
+        public ApplicationDbContext _db;
         public List<User> Users;
+        public List<Event> AllEvents;
 
         
         public AdminModel(ApplicationDbContext db)
         {
             _db = db;
+            AllEvents = _db.Events.Where(e => e.Archived != true).ToList();
             Users = new List<User>();
             var dbUsers = _db.Users.ToList();
             foreach (var user in dbUsers)
