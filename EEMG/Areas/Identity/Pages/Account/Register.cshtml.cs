@@ -79,7 +79,7 @@ namespace EEMG.Areas.Identity.Pages.Account
             [Display(Name = "Organization")]
             public string Organization { get; set; }
             [Display(Name = "Join Mailing List?")]
-            public bool JoinMailingList { get; set; }
+            public bool JoinMailingList { get; set; } = true;
         }
 
         public async Task OnGetAsync(string returnUrl = null)
