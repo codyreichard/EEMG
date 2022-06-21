@@ -45,3 +45,17 @@ $(document).on('click', '#remove-from-mailing-list', function (event) {
             console.log('Failed to Changed Member to a user!');
         });
 });
+
+$(document).on('click', '#reset-all-memberships', function (event) {
+    $.post({
+        url: '/Admin/ResetAllMemberships',
+    })
+        .done(function (event) {
+            console.log('should reload');
+            window.location.reload();
+            document.location.reload();
+        })
+        .fail(function (event) {
+            console.log('Failed to Reset all memberships!');
+        });
+});

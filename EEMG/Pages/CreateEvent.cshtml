@@ -26,7 +26,7 @@ else
             <div class="col-md-6">
                 <span class="label label-default" style="font-weight:bold;">Event Time </span>
                 <input type="datetime-local" asp-for="EventTime"
-                       name="eventTime" step="1" value="@DateTime.Now.ToString("s")" class="form-control">
+                       name="eventTime" step="1" value="@Model.EventTime.ToString("s")" class="form-control">
             </div>
         </div>
         <hr />

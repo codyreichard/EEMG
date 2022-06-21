@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using EEMG.Data;
 using EEMG.Models;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 
 namespace EEMG.Controllers
 {
@@ -33,6 +36,7 @@ namespace EEMG.Controllers
             return RedirectToAction("/Admin", model);
         }
 
+        #region Memberships
         [HttpPost]
         public async Task<IActionResult> ChangeUserToMember(string userId)
         {
@@ -57,6 +61,62 @@ namespace EEMG.Controllers
             return new OkObjectResult(new { success = true, message = "" });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ResetAllMemberships()
+        {
+            var userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            CreateMembershipLog();
+
+            foreach(var user in _db.ApplicationUsers.ToList())
+            {
+                var userRole = _db.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
+                
+                //dont want to change admin roles
+                if (_db.Roles.FirstOrDefault(x => x.Id == userRole.RoleId)?.Name == "Administrator")
+                    continue;
+   
+                var oldUser = userManager.FindByIdAsync(user.Id);
+                var oldRoleId = userRole.RoleId;
+                var oldRoleName = _db.Roles.SingleOrDefault(r => r.Id == oldRoleId).Name;
+
+                await userManager.RemoveFromRoleAsync(user, oldRoleName);
+                await userManager.AddToRoleAsync(user, "User");
+                _db.Entry(user).State = EntityState.Modified;
+            }
+
+            AdminModel model = new AdminModel(_db);
+            return new OkObjectResult(new { success = true, message = "" });
+        }
+
+        private void CreateMembershipLog()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Email, Full Name, Organization, Previous User Type, Date Reset");
+            foreach (var user in _db.ApplicationUsers.ToList())
+            {
+                var userRole = _db.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
+                var roleName = _db.Roles.SingleOrDefault(r => r.Id == userRole.RoleId).Name;
+                if (roleName == "Administrator")
+                    continue;
+
+                sb.AppendLine(user.Email + ", " + (user.FirstName + " " + user.LastName) + ", " + user.Organization + ", "+ roleName + ", " + DateTime.Now.ToString("yyyyMMMdd"));
+            }
+
+            if(System.IO.File.Exists(DateTime.Now.ToString("yyyyMMMdd") + "_membership_before_resets.csv"))
+                System.IO.File.Delete(DateTime.Now.ToString("yyyyMMMdd") + "_membership_before_resets.csv");
+
+            using (FileStream fs = System.IO.File.Create(DateTime.Now.ToString("yyyyMMMdd") + "_membership_before_resets.csv"))
+            {
+                //byte[] info = new UTF8Encoding(true).GetBytes("This is some text in the file.");
+                // Add some information to the file.
+                var fileBytes = Encoding.ASCII.GetBytes(sb.ToString());
+                fs.Write(fileBytes, 0, fileBytes.Length);
+            }
+        }
+
+        #endregion
         #region Mailing 
         [HttpPost]
         public IActionResult AddUserToMailingList(string email)

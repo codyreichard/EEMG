@@ -15,7 +15,7 @@ namespace EEMG.Pages
         public List<UserEventSignUp> UserEventSignUps { get; set; }
 
         public bool UserSignedUp { get; set; }
-
+        public bool UpcomingStarted { get; set; } = false;
         public EventDetailsModel(Data.ApplicationDbContext context, bool userSignedUp = false)
         {
             _context = context;
@@ -41,7 +41,10 @@ namespace EEMG.Pages
                 _context.SaveChanges();
             }
 
-            Events = _context.Events.Where(e => e.Archived != true).ToList();
+            //we dont want to show events that are older than a year
+            var lastYearOfShownEvent = DateTime.Now.Year - 2;
+
+            Events = _context.Events.Where(e => e.Archived != true && e.EventDate.Year > lastYearOfShownEvent).OrderBy(e => e.EventDate).ToList();
             UserEventSignUps = _context.EventUserSignUps.ToList();
         }
 

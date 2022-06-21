@@ -9,7 +9,7 @@ namespace EEMG.Pages
     public class CreateEventModel : PageModel
     {
         public string EventTitle { get; set; }
-        public DateTime EventTime { get; set; }
+        public DateTime EventTime { get; set; } = DateTime.Now;
         //public string FileName { get; set; }
         //public byte[] FileContents { get; set; }
         public IFormFile EventFile { get; set; }
@@ -17,6 +17,7 @@ namespace EEMG.Pages
         public string SpeakerBio { get; set; }
         public string EventLocation { get; set; }
         public int Id { get; set; }
+        public DateTime SelectedDateTime { get; set; }
 
 
         private ApplicationDbContext db;

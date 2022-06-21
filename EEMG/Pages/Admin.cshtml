@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="~/css/admin_page.css" />
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/admin-events.css" />
+<link rel="stylesheet" href="~/css/site.css" />
 
 @*<div class="nav navbar-fixed-top navbar-custom">
         <ul class="nav nav-tabs">
@@ -76,6 +77,16 @@
     </div>
 
     <div id="users-tab" class="tab-pane fade" role="tabpanel">
+        <div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button class="btn btn-info" id="reset-all-memberships"> Reset (Clear) All Memberships</button>
+                    @*<a asp-area="" asp-action="ResetAllMemberships" asp-controller="Admin" class="btn btn-info">Reset All Memberships</a>*@
+                </div>
+            </div>
+        </div>
+
+        <hr />
         <h1> User Information </h1>
         <div class="row">
             <table class="table">

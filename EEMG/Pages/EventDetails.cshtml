@@ -20,19 +20,52 @@
     ViewData["Title"] = "Event Details";
 }
 
+<link rel="stylesheet" href="~/css/site.css" />
+
 <h1>Event Details</h1>
 <hr />
 
+<h3> Previous Events </h3>
+<hr />
 <div>
     @foreach (Event events in Model.Events)
     {
+        var bioSubstring = events.SpeakerBio.Length > 100 ? events.SpeakerBio.Substring(0, 100) : events.SpeakerBio;
+        var bioResOfString = events.SpeakerBio.Length > 100 ? events.SpeakerBio.Substring(100) : "";
+
+        @if (events.EventDate > DateTime.Now && !Model.UpcomingStarted)
+        {
+            <h3 id="upcoming-events"> Upcoming Events </h3>
+            <hr />
+            Model.UpcomingStarted = true;
+        }
         <div class="card">
             <div class="card-body">
                 <label class="card-title"> @events.EventTitle</label>
                 <br>
-                <b> @events.EventDate.ToShortDateString() </b>
+                <label><b> Event Date: </b> </label>
+                <span> <u> @events.EventDate.ToShortDateString() </u> </span>
+                <br />
+                <label><b> Speaker: </b> </label>
+                <span> <u> @events.Speaker </u></span>
+                <br />
+                <label><b> Speaker Bio: </b> </label>
+
+                <p>
+                    @bioSubstring<span id="dots@{@events.Id}">...</span><span id="more@{@events.Id}" style="display:none;">@bioResOfString</span>
+                </p>
+                <button onclick="myFunction(@events.Id)" id="myBtn@{@events.Id}" class="btn btn-outline-info btn-sm"> Read More</button>
+                <br />
+
                 <div>
-                    <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="DownloadFile" class="btn btn-info">Download Event Document</a>
+                    @if (!String.IsNullOrEmpty(events.FileName))
+                    {
+                        <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="DownloadFile" class="btn btn-info">Download Event Document</a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="DownloadFile" class="btn btn-secondary disabled">Download Event Document</a>
+                    }
                     <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="ShowUsersAtEvent" class="btn btn-info">Show Attendees</a>
                     @if (events.EventDate > DateTime.Now && !Model.UserSignedUp) //&& Model.UserEventSignUps.Where(e => e.User.Id != currentUser.Id).ToList().Count > 0)
                     {
