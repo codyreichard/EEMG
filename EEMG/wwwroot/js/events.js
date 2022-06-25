@@ -10,15 +10,19 @@
 
 $(document).ready(function () {
 
-    var element = document.getElementById('upcoming-events');
-    element.scrollIntoView();
-    element.focus();
+    //var element = document.getElementById('upcoming-events');
+    //element.scrollIntoView();
+    //$('body').scrollTo(60);
+    //element.focus();
+
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#upcoming-events").offset().top-110
+    }, 2000);
 
 });
 
 
 function myFunction(eventId) {
-    console.log('inside myFunction the event id = ' + eventId);
     var dots = document.getElementById("dots" + eventId);
     var moreText = document.getElementById("more" + eventId);
     var btnText = document.getElementById("myBtn" + eventId);

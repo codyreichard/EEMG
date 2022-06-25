@@ -59,3 +59,10 @@ $(document).on('click', '#reset-all-memberships', function (event) {
             console.log('Failed to Reset all memberships!');
         });
 });
+
+$(document).on('change', '#event-select', function () {
+    var eventId = $(this).val();
+
+    var url = 'https://localhost:44351/Events/EventSignUp/' + eventId;
+    document.getElementById("latest-event-link").href = url;
+});

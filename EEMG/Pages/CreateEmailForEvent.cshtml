@@ -1,8 +1,11 @@
 ﻿@page
 @model EEMG.Pages.CreateEmailForEventModel
 @{
+    Layout = "_Layout";
 }
 
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
 
 <h1> Create Email for Latest Event </h1>
 <hr />
@@ -12,11 +15,11 @@
         <div class="row">
             <div class="col-md-4">
                 <span class="label label-default" style="font-weight:bold; margin-right:2%;">Member Only?</span>
-                <input type="checkbox" asp-for="MemberOnly" >
+                <input type="checkbox" asp-for="MemberOnly">
             </div>
             <div class="col-md-4">
                 <span class="label label-default" style="font-weight:bold; margin-right:2%;">Event Participants Only?</span>
-                <input type="checkbox" asp-for="EventParticipantsOnly" >
+                <input type="checkbox" asp-for="EventParticipantsOnly">
             </div>
             <div class="col-md-4">
                 <span class="label label-default" style="font-weight:bold; margin-right:2%;">Entire Mailing List?</span>
@@ -27,7 +30,13 @@
     </div>
 
     <div>
-        <a href="@Model.LatestEventUrl">Latest Event URL</a>
+        <div>
+            <input asp-for="SelectedEventId" type="hidden" />
+            <label>Select Event for Email: </label>
+            <select id="event-select" class="form-select form-select-sm" asp-for="SelectedEventId" asp-items="@Model.EventsSelectList">
+            </select>
+        </div>
+        <a id="latest-event-link" href="@Model.LatestEventUrl">Selected Event Url</a>
     </div>
     <hr />
 
@@ -56,3 +65,10 @@
         </div>
     </div>
 </form>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+}

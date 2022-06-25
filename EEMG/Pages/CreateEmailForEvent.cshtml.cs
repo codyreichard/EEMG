@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EEMG.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EEMG.Pages
 {
@@ -17,6 +18,8 @@ namespace EEMG.Pages
         public bool EntireMailingList { get; set; }
         
         public string LatestEventUrl { get; set; }
+        public List<SelectListItem> EventsSelectList { get; set; }
+        public int SelectedEventId { get; set; }
 
         public CreateEmailForEventModel(ApplicationDbContext db) 
         {
@@ -24,6 +27,18 @@ namespace EEMG.Pages
             if (latestEvent != null)
             {
                 LatestEventUrl = "https://localhost:44351/Events/EventSignUp/" + latestEvent.Id;
+            }
+
+            EventsSelectList = new List<SelectListItem>();
+            var events = db.Events.ToList();
+            foreach(var eve in events)
+            {
+                var selectListItem = new SelectListItem()
+                {
+                    Text = eve.EventTitle,
+                    Value = eve.Id.ToString()
+                };
+                EventsSelectList.Add(selectListItem);
             }
         }
         public void OnGet()

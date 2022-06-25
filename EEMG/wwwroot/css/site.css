@@ -107,3 +107,14 @@ body {
 #more {
     display:none;
 }
+
+#header {
+/*    position: sticky;
+    top: 0;*/
+    padding: 60px;
+}
+
+/*content {
+    margin: 100px auto;
+}
+*/
