@@ -21,26 +21,6 @@ namespace EEMG.Pages
             _context = context;
 
 
-            if (_context.Events.Count() <= 1)
-            {
-                Event events = new Event();
-                events.EventDate = new DateTime(2021,10,1);
-                events.EventTitle = "EEMG Luncheon OCT";
-                events.FileName = "test.pptx";
-                events.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
-
-                Event events1 = new Event();
-                events1.EventDate = new DateTime(2023, 12, 1);
-                events1.EventTitle = "EEMG Luncheon DEC";
-                events1.FileName = "test.pptx";
-                events1.FileContents = System.IO.File.ReadAllBytes(@"../Presentation1.pptx");
-
-                _context.Events.AddRange(events, events1);
-
-
-                _context.SaveChanges();
-            }
-
             //we dont want to show events that are older than a year
             var lastYearOfShownEvent = DateTime.Now.Year - 2;
 
@@ -70,8 +50,19 @@ namespace EEMG.Pages
                     if (userSignedUp != null)
                         UserSignedUp = true;
                 }
-            }catch(Exception) { }
+            }
+            catch (Exception) { UserSignedUp = false; }
 
+        }
+
+        public bool CheckIfUserSignedUp(int eventId)
+        {
+            var sUserSignedUp = HttpContext.Session.GetString("user_signed_up") ?? "";
+            var sessEventId = HttpContext.Session.GetInt32("sign_up_id");
+            if (bool.TryParse(sUserSignedUp, out bool signedUp))
+               return eventId == sessEventId ? signedUp : false;
+
+            return false;
         }
     }
 }

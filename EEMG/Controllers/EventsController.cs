@@ -33,6 +33,7 @@ namespace EEMG.Controllers
             newEvent.Speaker = speaker;
             newEvent.SpeakerBio = speakerBio;
             newEvent.EventLocation = eventLocation;
+            newEvent.Archived = false;
 
             if (eventFile != null && eventFile.Length > 0)
             {
@@ -45,7 +46,7 @@ namespace EEMG.Controllers
                 }
             }
 
-            if (id < 0)
+            if (id <= 0)
                 _context.Events.Add(newEvent);
 
             _context.SaveChanges();
@@ -113,6 +114,7 @@ namespace EEMG.Controllers
 
                 EventDetailsModel model = new EventDetailsModel(_context, true);
                 HttpContext.Session.SetString("user_signed_up", "true");
+                HttpContext.Session.SetInt32("sign_up_id", eventId);
                 return RedirectToPage("/EventDetails", model);
             }
 

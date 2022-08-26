@@ -33,8 +33,8 @@
 <div>
     @foreach (Event events in Model.Events)
     {
-        var bioSubstring = events.SpeakerBio.Length > 100 ? events.SpeakerBio.Substring(0, 100) : events.SpeakerBio;
-        var bioResOfString = events.SpeakerBio.Length > 100 ? events.SpeakerBio.Substring(100) : "";
+        var bioSubstring = events.SpeakerBio?.Length > 100 ? events.SpeakerBio.Substring(0, 100) : events.SpeakerBio;
+        var bioResOfString = events.SpeakerBio?.Length > 100 ? events.SpeakerBio.Substring(100) : "";
 
         @if (events.EventDate > DateTime.Now && !Model.UpcomingStarted)
         {
@@ -75,18 +75,59 @@
                         <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="DownloadFile" class="btn btn-secondary disabled">Download Event Document</a>
                     }
                     <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="ShowUsersAtEvent" class="btn btn-info">Show Attendees</a>
-                    @if (events.EventDate > DateTime.Now && !Model.UserSignedUp) //&& Model.UserEventSignUps.Where(e => e.User.Id != currentUser.Id).ToList().Count > 0)
-                    {
-                        <div style="float:right; margin-left:-20%">
-                            <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="EventSignUp" class="btn btn-info">Sign up for Event!</a>
-                        </div>
+                    @*@if (events.EventDate > DateTime.Now && Model.UserEventSignUps.Where(e => e.Email != currentUser?.Email).ToList().Count > 0) //!Model.UserSignedUp) //
+                        {
+                            <div style="float:right; margin-left:-20%">
+                                <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="EventSignUp" class="btn btn-info">Sign up for Event!</a>
+                            </div>
+                        }
+                        else if (events.EventDate > DateTime.Now && Model.UserSignedUp)
+                        {
+                            <div style="float:right; margin-left:-20%">
+                                <button disabled class="btn btn-success"> Signed Up for Event.</button>
+                            </div>
+                        }*@
+
+
+                    @{
+                        var list = Model.UserEventSignUps.Where(e => e.Email != currentUser?.Email).ToList();
+                        var tmp = Model.UserEventSignUps.Where(e => e.Email != currentUser?.Email).ToList().Count > 0;
+                        var isUserSignedUp = (currentUser != null && Model.UserEventSignUps.Where(e => e.Email == currentUser?.Email).ToList().Count > 0)
+                            || Model.CheckIfUserSignedUp(events.Id); // Model.UserSignedUp;
+
+                        if (isUserSignedUp && events.EventDate > DateTime.Now)
+                        {
+                            <div style="float:right; margin-left:-20%">
+                                <a class="btn btn-info" disabled>Registered for Event</a>
+                            </div>
+                        }
+                        else if(events.EventDate > DateTime.Now)
+                        {
+                            <div style="float:right; margin-left:-20%">
+                                <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="EventSignUp" class="btn btn-info">Sign up for Event!</a>
+                            </div>
+                        }
                     }
-                    else if (events.EventDate > DateTime.Now && Model.UserSignedUp)
-                    {
-                        <div style="float:right; margin-left:-20%">
-                            <button disabled class="btn btn-success"> Signed Up for Event.</button>
-                        </div>
-                    }
+
+
+                    @*@if (currentUser != null && events.EventDate > DateTime.Now && Model.UserEventSignUps.Where(e => e.Email != currentUser?.Email).ToList().Count > 0)
+                        {
+                            <div style="float:right; margin-left:-20%">
+                                <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="EventSignUp" class="btn btn-info">Sign up for Event!</a>
+                            </div>
+                        }
+                        else if (events.EventDate > DateTime.Now && !Model.UserSignedUp)
+                        {
+                            <div style="float:right; margin-left:-20%">
+                                <a asp-area="" asp-controller="Events" asp-route-id="@events.Id" asp-action="EventSignUp" class="btn btn-info">Sign up for Event!</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="float:right; margin-left:-20%">
+                                <a class="btn btn-info" disabled>Registered for Event</a>
+                            </div>
+                        }*@
                 </div>
 
 

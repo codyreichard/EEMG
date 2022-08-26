@@ -96,7 +96,7 @@ namespace EEMG.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser
                 { 
-                    UserName = Input.FirstName, Email = Input.Email, FirstName = Input.FirstName,
+                    UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName,
                     LastName = Input.LastName, Organization = Input.Organization
                 
                 };
